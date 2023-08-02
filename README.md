@@ -1,5 +1,11 @@
 # Material UI - Vite.js in Typescript example
 
+## Docker
+
+```
+docker build --tag ma . && docker run -it -p 3000:3000 --name ma --rm ma
+```
+
 ## How to use
 
 Download the example [or clone the repo](https://github.com/mui/material-ui):
