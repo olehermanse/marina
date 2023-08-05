@@ -6,6 +6,9 @@ export default function WordCard({ word, onWordClick, buttonState }) {
     color: "#000000",
     height: "60px",
     lineHeight: "60px",
+    transition: "all .5s ease",
+    WebkitTransition: "all .5s ease",
+    MozTransition: "all .5s ease",
   };
   if (buttonState === "highlighted") {
     wordCardStyle.bgcolor = "#7dafff";
