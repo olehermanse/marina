@@ -28,72 +28,111 @@ function shuffleArray(array: any[]) {
   }
 }
 
-const dictionary = [
-  ["jente", "menina"],
-  ["gutt", "menino"],
-  ["mann", "homem"],
-  ["kvinne", "mulher"],
-  ["gate", "rua"],
-  ["by", "cidade"],
-  ["hei", "oi"],
-  ["hallo", "ola"],
-  ["ja", "sim"],
-  ["nei", "nao"],
-  ["takk", "obrigado"],
-  ["værsåsnill", "por favor"],
-  ["klatre", "escalar"],
-  ["løpe", "correr"],
-  ["og", "e"],
-  ["eller", "ou"],
-  ["han", "ele"],
-  ["hun", "ela"],
-  ["kjæreste", "namorado/a"],
-];
+const dictionary = {
+  jente: "menina",
+  gutt: "menino",
+  mann: "homem",
+  kvinne: "mulher",
+  gate: "rua",
+  by: "cidade",
+  hei: "oi",
+  hallo: "ola",
+  ja: "sim",
+  nei: "nao",
+  takk: "obrigado",
+  værsåsnill: "por favor",
+  klatre: "escalar",
+  løpe: "correr",
+  og: "e",
+  eller: "ou",
+  han: "ele",
+  hun: "ela",
+  kjæreste: "namorado/a",
+};
 
-shuffleArray(dictionary);
-
-export default function App() {
-  let pairs = dictionary.slice(0, 5);
-  let solutions = {};
+function getNewWords() {
+  let pairs = Object.entries(dictionary);
+  shuffleArray(pairs);
+  let selection = pairs.slice(0, 5);
   let no: string[] = [];
   let pt: string[] = [];
-  for (let pair of pairs) {
+  for (let pair of selection) {
     let a = pair[0].toUpperCase();
     let b = pair[1].toUpperCase();
-    solutions[a] = b;
     no.push(a);
     pt.push(b);
   }
   shuffleArray(no);
   shuffleArray(pt);
+  return [...no, ...pt];
+}
 
-  const [highlights, setHighlights] = useState(Array(10).fill(false));
-  const [words, setWords] = useState([...no, ...pt]);
+export default function App() {
+  const [buttonStates, setButtonStates] = useState(Array(10).fill(""));
+  const [words, setWords] = useState(getNewWords());
 
   function leftSideClicked() {
-    return highlights.slice(0, 5).some((e) => e === true);
+    return buttonStates.slice(0, 5).some((e) => e === "highlighted");
   }
 
   function rightSideClicked() {
-    return highlights.slice(5, 10).some((e) => e === true);
+    return buttonStates.slice(5, 10).some((e) => e === "highlighted");
+  }
+
+  function handleFillNewWords() {
+    setButtonStates(Array(10).fill(""));
+    setWords(getNewWords());
+  }
+
+  function handleBothSidesClicked(i) {
+    const nextButtonStates = buttonStates.slice();
+    nextButtonStates[i] = "highlighted";
+    let indices = [];
+    for (let i = 0; i < nextButtonStates.length; i++) {
+      if (nextButtonStates[i] === "highlighted") {
+        indices.push(i);
+      }
+    }
+    let a = indices[0];
+    let b = indices[1];
+    let correct = dictionary[words[a].toLowerCase()] === words[b].toLowerCase();
+    if (correct) {
+      nextButtonStates[a] = "disabled";
+      nextButtonStates[b] = "disabled";
+    } else {
+      nextButtonStates[a] = "";
+      nextButtonStates[b] = "";
+    }
+    if (nextButtonStates.every((e) => e === "disabled")) {
+      handleFillNewWords();
+      return;
+    }
+    setButtonStates(nextButtonStates);
   }
 
   function handleWordClick(i) {
+    if (buttonStates[i] === "disabled" || buttonStates[i] === "highlighted") {
+      return;
+    }
     if (i < 5 && leftSideClicked()) {
       return;
     }
     if (i >= 5 && rightSideClicked()) {
       return;
     }
-    const nextHighlights = highlights.slice();
-    nextHighlights[i] = true;
-    setHighlights(nextHighlights);
+    if (leftSideClicked() || rightSideClicked()) {
+      handleBothSidesClicked(i);
+      return;
+    }
+    const nextButtonStates = buttonStates.slice();
+    nextButtonStates[i] = "highlighted";
+    setButtonStates(nextButtonStates);
   }
   return (
     <Container maxWidth="sm">
       <Box sx={{ my: 4 }}>
         <Typography align="center" variant="h4" component="h1" gutterBottom>
-          Words
+          🇳🇴 Words 🇧🇷
         </Typography>
         <Container>
           <Stack
@@ -110,35 +149,35 @@ export default function App() {
             >
               <WordCard
                 word={words[0]}
-                highlighted={highlights[0]}
+                buttonState={buttonStates[0]}
                 onWordClick={() => {
                   handleWordClick(0);
                 }}
               ></WordCard>
               <WordCard
                 word={words[1]}
-                highlighted={highlights[1]}
+                buttonState={buttonStates[1]}
                 onWordClick={() => {
                   handleWordClick(1);
                 }}
               ></WordCard>
               <WordCard
                 word={words[2]}
-                highlighted={highlights[2]}
+                buttonState={buttonStates[2]}
                 onWordClick={() => {
                   handleWordClick(2);
                 }}
               ></WordCard>
               <WordCard
                 word={words[3]}
-                highlighted={highlights[3]}
+                buttonState={buttonStates[3]}
                 onWordClick={() => {
                   handleWordClick(3);
                 }}
               ></WordCard>
               <WordCard
                 word={words[4]}
-                highlighted={highlights[4]}
+                buttonState={buttonStates[4]}
                 onWordClick={() => {
                   handleWordClick(4);
                 }}
@@ -152,35 +191,35 @@ export default function App() {
             >
               <WordCard
                 word={words[5]}
-                highlighted={highlights[5]}
+                buttonState={buttonStates[5]}
                 onWordClick={() => {
                   handleWordClick(5);
                 }}
               ></WordCard>
               <WordCard
                 word={words[6]}
-                highlighted={highlights[6]}
+                buttonState={buttonStates[6]}
                 onWordClick={() => {
                   handleWordClick(6);
                 }}
               ></WordCard>
               <WordCard
                 word={words[7]}
-                highlighted={highlights[7]}
+                buttonState={buttonStates[7]}
                 onWordClick={() => {
                   handleWordClick(7);
                 }}
               ></WordCard>
               <WordCard
                 word={words[8]}
-                highlighted={highlights[8]}
+                buttonState={buttonStates[8]}
                 onWordClick={() => {
                   handleWordClick(8);
                 }}
               ></WordCard>
               <WordCard
                 word={words[9]}
-                highlighted={highlights[9]}
+                buttonState={buttonStates[9]}
                 onWordClick={() => {
                   handleWordClick(9);
                 }}
