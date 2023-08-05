@@ -34,7 +34,6 @@ const WordCard = styled(Paper)(({ theme }) => ({
 function click(event) {
   console.log("Click");
   console.log(event);
-  event.target.
 }
 export default function App() {
   return (
