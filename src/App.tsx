@@ -1,10 +1,9 @@
 import Container from "@mui/material/Container";
-import { useState } from "react";
-import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Link from "@mui/material/Link";
 import ProTip from "./ProTip";
+import WordCard from "./WordCard";
 import Stack from "@mui/material/Stack";
 
 function Copyright() {
@@ -19,30 +18,6 @@ function Copyright() {
   );
 }
 
-function WordCard() {
-  const [wordText, setWordText] = useState("Word");
-  const [clicked, setClicked] = useState(false);
-  let wordCardStyle = {
-    bgcolor: "#ffffff",
-    height: "60px",
-    lineHeight: "60px",
-  };
-  if (clicked) {
-    wordCardStyle.bgcolor = "#7dafff";
-  }
-  return (
-    <Paper
-      align="center"
-      onClick={() => {
-        setWordText("New word");
-        setClicked(true);
-      }}
-      sx={wordCardStyle}
-    >
-      {wordText}
-    </Paper>
-  );
-}
 export default function App() {
   return (
     <Container maxWidth="sm">
