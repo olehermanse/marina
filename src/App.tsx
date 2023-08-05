@@ -54,10 +54,10 @@ const dictionary = {
   kjæreste: "namorado/a",
 };
 
-function getNewWords() {
+function getNewWords(n) {
   let pairs = Object.entries(dictionary);
   shuffleArray(pairs);
-  let selection = pairs.slice(0, 5);
+  let selection = pairs.slice(0, n / 2);
   let no: string[] = [];
   let pt: string[] = [];
   for (let pair of selection) {
@@ -72,23 +72,28 @@ function getNewWords() {
 }
 
 export default function App() {
-  const [buttonStates, setButtonStates] = useState(Array(10).fill(""));
-  const [words, setWords] = useState(getNewWords());
+  const [difficulty, setDifficulty] = useState(4);
+  const [buttonStates, setButtonStates] = useState(Array(difficulty).fill(""));
+  const [words, setWords] = useState(getNewWords(difficulty));
 
   function leftSideClicked() {
-    return buttonStates.slice(0, 5).some((e) => e === "highlighted");
+    return buttonStates
+      .slice(0, words.length / 2)
+      .some((e) => e === "highlighted");
   }
 
   function rightSideClicked() {
-    return buttonStates.slice(5, 10).some((e) => e === "highlighted");
+    return buttonStates
+      .slice(words.length / 2, words.length)
+      .some((e) => e === "highlighted");
   }
 
-  function handleFillNewWords() {
-    setButtonStates(Array(10).fill(""));
-    setWords(getNewWords());
+  function handleFillNewWords(n) {
+    setButtonStates(Array(n).fill(""));
+    setWords(getNewWords(n));
   }
 
-  function handleBothSidesClicked(i) {
+  function handleBothSidesClicked(i: any) {
     const nextButtonStates = buttonStates.slice();
     nextButtonStates[i] = "highlighted";
     let indices = [];
@@ -97,9 +102,10 @@ export default function App() {
         indices.push(i);
       }
     }
-    let a = indices[0];
-    let b = indices[1];
-    let correct = dictionary[words[a].toLowerCase()] === words[b].toLowerCase();
+    let a: any = indices[0];
+    let b: any = indices[1];
+    let correct: any =
+      dictionary[words[a].toLowerCase()] === words[b].toLowerCase();
     if (correct) {
       nextButtonStates[a] = "disabled";
       nextButtonStates[b] = "disabled";
@@ -108,20 +114,25 @@ export default function App() {
       nextButtonStates[b] = "error";
     }
     if (nextButtonStates.every((e) => e === "disabled")) {
-      handleFillNewWords();
+      if (difficulty < 12) {
+        handleFillNewWords(difficulty + 2);
+        setDifficulty(difficulty + 2);
+      } else {
+        handleFillNewWords(difficulty);
+      }
       return;
     }
     setButtonStates(nextButtonStates);
   }
 
-  function handleWordClick(i) {
+  function handleWordClick(i: any) {
     if (buttonStates[i] === "disabled" || buttonStates[i] === "highlighted") {
       return;
     }
-    if (i < 5 && leftSideClicked()) {
+    if (i < words.length / 2 && leftSideClicked()) {
       return;
     }
-    if (i >= 5 && rightSideClicked()) {
+    if (i >= words.length / 2 && rightSideClicked()) {
       return;
     }
     if (leftSideClicked() || rightSideClicked()) {
@@ -156,41 +167,19 @@ export default function App() {
               spacing={2}
               sx={{ width: "100%" }}
             >
-              <WordCard
-                word={words[0]}
-                buttonState={buttonStates[0]}
-                onWordClick={() => {
-                  handleWordClick(0);
-                }}
-              ></WordCard>
-              <WordCard
-                word={words[1]}
-                buttonState={buttonStates[1]}
-                onWordClick={() => {
-                  handleWordClick(1);
-                }}
-              ></WordCard>
-              <WordCard
-                word={words[2]}
-                buttonState={buttonStates[2]}
-                onWordClick={() => {
-                  handleWordClick(2);
-                }}
-              ></WordCard>
-              <WordCard
-                word={words[3]}
-                buttonState={buttonStates[3]}
-                onWordClick={() => {
-                  handleWordClick(3);
-                }}
-              ></WordCard>
-              <WordCard
-                word={words[4]}
-                buttonState={buttonStates[4]}
-                onWordClick={() => {
-                  handleWordClick(4);
-                }}
-              ></WordCard>
+              {[...Array(words.length).keys()]
+                .slice(0, words.length / 2)
+                .map((i) => {
+                  return (
+                    <WordCard
+                      buttonState={buttonStates[i]}
+                      onWordClick={() => {
+                        handleWordClick(i);
+                      }}
+                      word={words[i]}
+                    />
+                  );
+                })}
             </Stack>
             <Stack
               justifyContent="center"
@@ -198,41 +187,19 @@ export default function App() {
               spacing={2}
               sx={{ width: "100%" }}
             >
-              <WordCard
-                word={words[5]}
-                buttonState={buttonStates[5]}
-                onWordClick={() => {
-                  handleWordClick(5);
-                }}
-              ></WordCard>
-              <WordCard
-                word={words[6]}
-                buttonState={buttonStates[6]}
-                onWordClick={() => {
-                  handleWordClick(6);
-                }}
-              ></WordCard>
-              <WordCard
-                word={words[7]}
-                buttonState={buttonStates[7]}
-                onWordClick={() => {
-                  handleWordClick(7);
-                }}
-              ></WordCard>
-              <WordCard
-                word={words[8]}
-                buttonState={buttonStates[8]}
-                onWordClick={() => {
-                  handleWordClick(8);
-                }}
-              ></WordCard>
-              <WordCard
-                word={words[9]}
-                buttonState={buttonStates[9]}
-                onWordClick={() => {
-                  handleWordClick(9);
-                }}
-              ></WordCard>
+              {[...Array(words.length).keys()]
+                .slice(words.length / 2, words.length)
+                .map((i) => {
+                  return (
+                    <WordCard
+                      buttonState={buttonStates[i]}
+                      onWordClick={() => {
+                        handleWordClick(i);
+                      }}
+                      word={words[i]}
+                    />
+                  );
+                })}
             </Stack>
           </Stack>
         </Container>
