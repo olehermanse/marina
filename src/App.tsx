@@ -104,8 +104,8 @@ export default function App() {
       nextButtonStates[a] = "disabled";
       nextButtonStates[b] = "disabled";
     } else {
-      nextButtonStates[a] = "";
-      nextButtonStates[b] = "";
+      nextButtonStates[a] = "error";
+      nextButtonStates[b] = "error";
     }
     if (nextButtonStates.every((e) => e === "disabled")) {
       handleFillNewWords();
@@ -130,6 +130,11 @@ export default function App() {
     }
     const nextButtonStates = buttonStates.slice();
     nextButtonStates[i] = "highlighted";
+    for (let j = 0; j < nextButtonStates.length; j++) {
+      if (nextButtonStates[j] === "error") {
+        nextButtonStates[j] = "";
+      }
+    }
     setButtonStates(nextButtonStates);
   }
   return (

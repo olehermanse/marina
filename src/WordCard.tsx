@@ -13,10 +13,11 @@ export default function WordCard({ word, onWordClick, buttonState }) {
   };
   if (buttonState === "highlighted") {
     wordCardStyle.bgcolor = "#7dafff";
-  }
-  if (buttonState === "disabled") {
+  } else if (buttonState === "disabled") {
     wordCardStyle.bgcolor = "#d2e2fc";
     wordCardStyle.color = "#919191";
+  } else if (buttonState === "error") {
+    wordCardStyle.bgcolor = "#ed795c";
   }
   return (
     <Paper align="center" onClick={onWordClick} sx={wordCardStyle}>
