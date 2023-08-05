@@ -136,7 +136,7 @@ export default function App() {
     <Container maxWidth="sm">
       <Box sx={{ my: 4 }}>
         <Typography align="center" variant="h4" component="h1" gutterBottom>
-          🇳🇴 Words 🇧🇷
+          🇳🇴 - 🇧🇷
         </Typography>
         <Container>
           <Stack
