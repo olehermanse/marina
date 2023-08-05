@@ -2,14 +2,18 @@ import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Link from "@mui/material/Link";
-import ProTip from "./ProTip";
 import WordCard from "./WordCard";
 import Stack from "@mui/material/Stack";
 import { useState } from "react";
 
 function Copyright() {
   return (
-    <Typography variant="body2" color="text.secondary" align="center">
+    <Typography
+      sx={{ mt: 6 }}
+      variant="body2"
+      color="text.secondary"
+      align="center"
+    >
       {"Copyright © "}
       <Link color="inherit" href="https://oleherman.com/">
         Ole Herman S. Elgesem
@@ -40,7 +44,7 @@ const dictionary = {
   ja: "sim",
   nei: "nao",
   takk: "obrigado",
-  værsåsnill: "por favor",
+  "vær så snill": "por favor",
   klatre: "escalar",
   løpe: "correr",
   og: "e",
@@ -227,7 +231,6 @@ export default function App() {
             </Stack>
           </Stack>
         </Container>
-        <ProTip />
         <Copyright />
       </Box>
     </Container>
