@@ -32,30 +32,30 @@ function shuffleArray(array: any[]) {
   }
 }
 
-const dictionary = {
-  jente: "menina",
-  gutt: "menino",
-  mann: "homem",
-  kvinne: "mulher",
-  gate: "rua",
-  by: "cidade",
-  hei: "oi",
-  hallo: "ola",
-  ja: "sim",
-  nei: "nao",
-  takk: "obrigado",
-  "vær så snill": "por favor",
-  klatre: "escalar",
-  løpe: "correr",
-  og: "e",
-  eller: "ou",
-  han: "ele",
-  hun: "ela",
-  kjæreste: "namorado/a",
-};
+const dictionary = new Map([
+  ["jente", "menina"],
+  ["gutt", "menino"],
+  ["mann", "homem"],
+  ["kvinne", "mulher"],
+  ["gate", "rua"],
+  ["by", "cidade"],
+  ["hei", "oi"],
+  ["hallo", "ola"],
+  ["ja", "sim"],
+  ["nei", "nao"],
+  ["takk", "obrigado"],
+  ["vær så snill", "por favor"],
+  ["klatre", "escalar"],
+  ["løpe", "correr"],
+  ["og", "e"],
+  ["eller", "ou"],
+  ["han", "ele"],
+  ["hun", "ela"],
+  ["kjæreste", "namorado/a"],
+]);
 
-function getNewWords(n) {
-  let pairs = Object.entries(dictionary);
+function getNewWords(n: number) {
+  let pairs = Array.from(dictionary);
   shuffleArray(pairs);
   let selection = pairs.slice(0, n / 2);
   let no: string[] = [];
@@ -71,34 +71,13 @@ function getNewWords(n) {
   return [...no, ...pt];
 }
 
-interface GameState {
-  difficulty: number;
-  score: number;
-}
-
-class GameObject {
-  difficulty: number;
-  score: number;
-  constructor(state: GameState) {
-    this.difficulty = state.difficulty;
-    this.score = state.score;
-  }
-
-  get state(): GameState {
-    return { score: this.score, difficulty: this.difficulty };
-  }
-}
-
 export default function App() {
-  const [gameState, setGameState] = useState(
-    new GameObject({ difficulty: 4, score: 0 }).state
-  );
+  const [difficulty, setDifficulty] = useState(4);
+  const [score, setScore] = useState(0);
   const [buttonStates, setButtonStates]: [string[], any] = useState(
-    Array(Number(gameState.difficulty)).fill("")
+    Array(Number(difficulty)).fill("")
   );
-  const [words, setWords]: [string[], any] = useState(
-    getNewWords(gameState.difficulty)
-  );
+  const [words, setWords]: [string[], any] = useState(getNewWords(difficulty));
 
   function leftSideClicked() {
     return buttonStates
@@ -112,41 +91,39 @@ export default function App() {
       .some((e) => e === "highlighted");
   }
 
-  function handleFillNewWords(n) {
+  function handleFillNewWords(n: number) {
     setButtonStates(Array(n).fill(""));
     setWords(getNewWords(n));
   }
 
-  function handleBothSidesClicked(i: any) {
-    const nextButtonStates = buttonStates.slice();
+  function handleBothSidesClicked(i: number) {
+    const nextButtonStates: string[] = buttonStates.slice();
     nextButtonStates[i] = "highlighted";
-    let indices = [];
+    let indices: number[] = [];
     for (let i = 0; i < nextButtonStates.length; i++) {
       if (nextButtonStates[i] === "highlighted") {
         indices.push(i);
       }
     }
-    let a: any = indices[0];
-    let b: any = indices[1];
-    let game = new GameObject(gameState);
-    let correct: any =
-      dictionary[words[a].toLowerCase()] === words[b].toLowerCase();
+    let a: number = indices[0];
+    let word_a: string = words[a].toLowerCase();
+    let b: number = indices[1];
+    let word_b: string = words[b].toLowerCase();
+    let correct: boolean = dictionary.get(word_a) === word_b;
     if (correct) {
       nextButtonStates[a] = "disabled";
       nextButtonStates[b] = "disabled";
-      game.score += 1;
-      setGameState(game.state);
+      setScore(score + 1);
     } else {
       nextButtonStates[a] = "error";
       nextButtonStates[b] = "error";
     }
     if (nextButtonStates.every((e) => e === "disabled")) {
-      if (gameState.difficulty < 12) {
-        game.difficulty += 2;
-        handleFillNewWords(game.difficulty);
-        setGameState(game.state);
+      if (difficulty < 12) {
+        handleFillNewWords(difficulty + 2);
+        setDifficulty(difficulty + 2);
       } else {
-        handleFillNewWords(gameState.difficulty);
+        handleFillNewWords(difficulty);
       }
       return;
     }
@@ -180,7 +157,7 @@ export default function App() {
     <Container maxWidth="sm">
       <Box sx={{ my: 4 }}>
         <Typography align="center" variant="h4" component="h1" gutterBottom>
-          🇳🇴 {gameState.score === 0 ? "-" : gameState.score} 🇧🇷
+          🇳🇴 {score === 0 ? "-" : score} 🇧🇷
         </Typography>
         <Container>
           <Stack
