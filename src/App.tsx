@@ -71,10 +71,34 @@ function getNewWords(n) {
   return [...no, ...pt];
 }
 
+interface GameState {
+  difficulty: number;
+  score: number;
+}
+
+class GameObject {
+  difficulty: number;
+  score: number;
+  constructor(state: GameState) {
+    this.difficulty = state.difficulty;
+    this.score = state.score;
+  }
+
+  get state(): GameState {
+    return { score: this.score, difficulty: this.difficulty };
+  }
+}
+
 export default function App() {
-  const [difficulty, setDifficulty] = useState(4);
-  const [buttonStates, setButtonStates] = useState(Array(difficulty).fill(""));
-  const [words, setWords] = useState(getNewWords(difficulty));
+  const [gameState, setGameState] = useState(
+    new GameObject({ difficulty: 4, score: 0 }).state
+  );
+  const [buttonStates, setButtonStates]: [string[], any] = useState(
+    Array(Number(gameState.difficulty)).fill("")
+  );
+  const [words, setWords]: [string[], any] = useState(
+    getNewWords(gameState.difficulty)
+  );
 
   function leftSideClicked() {
     return buttonStates
@@ -104,21 +128,25 @@ export default function App() {
     }
     let a: any = indices[0];
     let b: any = indices[1];
+    let game = new GameObject(gameState);
     let correct: any =
       dictionary[words[a].toLowerCase()] === words[b].toLowerCase();
     if (correct) {
       nextButtonStates[a] = "disabled";
       nextButtonStates[b] = "disabled";
+      game.score += 1;
+      setGameState(game.state);
     } else {
       nextButtonStates[a] = "error";
       nextButtonStates[b] = "error";
     }
     if (nextButtonStates.every((e) => e === "disabled")) {
-      if (difficulty < 12) {
-        handleFillNewWords(difficulty + 2);
-        setDifficulty(difficulty + 2);
+      if (gameState.difficulty < 12) {
+        game.difficulty += 2;
+        handleFillNewWords(game.difficulty);
+        setGameState(game.state);
       } else {
-        handleFillNewWords(difficulty);
+        handleFillNewWords(gameState.difficulty);
       }
       return;
     }
@@ -152,7 +180,7 @@ export default function App() {
     <Container maxWidth="sm">
       <Box sx={{ my: 4 }}>
         <Typography align="center" variant="h4" component="h1" gutterBottom>
-          🇳🇴 - 🇧🇷
+          🇳🇴 {gameState.score === 0 ? "-" : gameState.score} 🇧🇷
         </Typography>
         <Container>
           <Stack
