@@ -105,6 +105,7 @@ function getNewWords(n: number) {
 }
 
 export default function App() {
+  const [hardMode, setHardMode] = useState(false);
   const [difficulty, setDifficulty] = useState(4);
   const [score, setScore] = useState(0);
   const [buttonStates, setButtonStates]: [string[], any] = useState(
@@ -147,6 +148,9 @@ export default function App() {
       nextButtonStates[a] = "disabled";
       nextButtonStates[b] = "disabled";
       setScore(score + 1);
+      if (score + 1 >= 50) {
+        setHardMode(true);
+      }
     } else {
       nextButtonStates[a] = "error";
       nextButtonStates[b] = "error";
@@ -215,6 +219,7 @@ export default function App() {
                         handleWordClick(i);
                       }}
                       word={words[i]}
+                      hardMode={hardMode}
                     />
                   );
                 })}
@@ -235,6 +240,7 @@ export default function App() {
                         handleWordClick(i);
                       }}
                       word={words[i]}
+                      hardMode={hardMode}
                     />
                   );
                 })}

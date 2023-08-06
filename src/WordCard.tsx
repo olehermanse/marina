@@ -1,6 +1,6 @@
 import Paper from "@mui/material/Paper";
 
-export default function WordCard({ word, onWordClick, buttonState }) {
+export default function WordCard({ word, onWordClick, buttonState, hardMode }) {
   let wordCardStyle = {
     bgcolor: "#ffffff",
     color: "#000000",
@@ -21,7 +21,7 @@ export default function WordCard({ word, onWordClick, buttonState }) {
   }
   return (
     <Paper align="center" onClick={onWordClick} sx={wordCardStyle}>
-      {word}
+      {hardMode && buttonState === "" ? "?" : word}
     </Paper>
   );
 }
