@@ -155,16 +155,15 @@ export default function App() {
       nextButtonStates[a] = "error";
       nextButtonStates[b] = "error";
     }
-    if (nextButtonStates.every((e) => e === "disabled")) {
-      if (difficulty < 12) {
-        handleFillNewWords(difficulty + 2);
-        setDifficulty(difficulty + 2);
-      } else {
-        handleFillNewWords(difficulty);
-      }
-      return;
-    }
     setButtonStates(nextButtonStates);
+    if (nextButtonStates.every((e) => e === "disabled")) {
+      let newDifficulty = difficulty;
+      if (difficulty < 12) {
+        newDifficulty += 2;
+        setDifficulty(newDifficulty);
+      }
+      setTimeout(() => handleFillNewWords(newDifficulty), 500);
+    }
   }
 
   function handleWordClick(i: any) {
