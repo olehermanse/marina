@@ -104,10 +104,40 @@ function getNewWords(n: number) {
   return [...no, ...pt];
 }
 
+function getDifficulty() {
+  const cookieValue = document.cookie
+    .split("; ")
+    .find((row) => row.startsWith("difficulty="))
+    ?.split("=")[1];
+  if (cookieValue === undefined) {
+    return 4;
+  }
+  return Number(cookieValue);
+}
+
+function setDifficultyCookie(difficulty: Number) {
+  document.cookie = "difficulty=" + difficulty;
+}
+
+function getScore() {
+  const cookieValue = document.cookie
+    .split("; ")
+    .find((row) => row.startsWith("score="))
+    ?.split("=")[1];
+  if (cookieValue === undefined) {
+    return 0;
+  }
+  return Number(cookieValue);
+}
+
+function setScoreCookie(score: Number) {
+  document.cookie = "score=" + score;
+}
+
 export default function App() {
   const [hardMode, setHardMode] = useState(false);
-  const [difficulty, setDifficulty] = useState(4);
-  const [score, setScore] = useState(0);
+  const [difficulty, setDifficulty] = useState(getDifficulty());
+  const [score, setScore] = useState(getScore());
   const [buttonStates, setButtonStates]: [string[], any] = useState(
     Array(Number(difficulty)).fill("")
   );
@@ -147,6 +177,7 @@ export default function App() {
     if (correct) {
       nextButtonStates[a] = "disabled";
       nextButtonStates[b] = "disabled";
+      setScoreCookie(score + 1);
       setScore(score + 1);
       if (score + 1 >= 50) {
         setHardMode(true);
@@ -160,6 +191,7 @@ export default function App() {
       let newDifficulty = difficulty;
       if (difficulty < 12) {
         newDifficulty += 2;
+        setDifficultyCookie(newDifficulty);
         setDifficulty(newDifficulty);
       }
       setTimeout(() => handleFillNewWords(newDifficulty), 500);
