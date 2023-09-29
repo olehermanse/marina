@@ -32,7 +32,7 @@ function shuffleArray(array: any[]) {
   }
 }
 
-const dictionary = new Map([
+const basics = new Map([
   ["jente", "menina"],
   ["gutt", "menino"],
   ["mann", "homem"],
@@ -72,6 +72,9 @@ const dictionary = new Map([
   ["sliten", "cansado"],
   ["våken", "acordado/a"],
   ["ord", "palavra"],
+]);
+
+const numbers = new Map([
   ["en", "um"],
   ["to", "dois"],
   ["tre", "três"],
@@ -87,8 +90,53 @@ const dictionary = new Map([
   ["tusen", "mil"],
 ]);
 
-function getNewWords(n: number) {
-  let pairs = Array.from(dictionary);
+const advanced = new Map([
+  ["bok", "livro"],
+  ["tann🦷", "dente"],
+  ["jul", "natal"],
+  ["bil", "carro"],
+  ["sykkel", "bicicleta"],
+  ["strand", "praia"],
+  ["dykke🤿", "mergulhar"],
+  ["jeg", "eu"],
+  ["du", "você"],
+  ["dere", "vocês"],
+  ["snakke", "falar"],
+  ["spørre", "perguntar"],
+  ["svare", "responder"],
+  ["invitere", "convidar"],
+  ["dele", "partilhar"],
+  ["lese", "ler"],
+  ["spise", "comer"],
+  ["drikke", "beber"],
+  ["trene", "malhar"],
+  ["høre", "ouvir"],
+  ["bestemme", "decidir"],
+  ["glemme", "esquecer"],
+  ["kjøre", "dirigir"],
+  ["hund", "cachorro"],
+  ["katt", "gato"],
+  ["hest", "cavalo"],
+  ["fugl", "pássaro"],
+  ["sitte", "sentar"],
+  ["gammel", "velho"],
+]);
+
+const dictionary = new Map([...basics, ...numbers, ...advanced]);
+
+function getNewWords(n: number, score: number) {
+  let chosenWords = new Map([...basics]);
+  if (score > 10) {
+    numbers.forEach((v, k) => {
+      chosenWords.set(k, v);
+    });
+  }
+  if (score > 50) {
+    advanced.forEach((v, k) => {
+      chosenWords.set(k, v);
+    });
+  }
+  let pairs = Array.from(chosenWords);
   shuffleArray(pairs);
   let selection = pairs.slice(0, n / 2);
   let no: string[] = [];
@@ -141,7 +189,9 @@ export default function App() {
   const [buttonStates, setButtonStates]: [string[], any] = useState(
     Array(Number(difficulty)).fill("")
   );
-  const [words, setWords]: [string[], any] = useState(getNewWords(difficulty));
+  const [words, setWords]: [string[], any] = useState(
+    getNewWords(difficulty, score)
+  );
 
   function leftSideClicked() {
     return buttonStates
@@ -155,9 +205,9 @@ export default function App() {
       .some((e) => e === "highlighted");
   }
 
-  function handleFillNewWords(n: number) {
+  function handleFillNewWords(n: number, score: number) {
     setButtonStates(Array(n).fill(""));
-    setWords(getNewWords(n));
+    setWords(getNewWords(n, score));
   }
 
   function handleBothSidesClicked(i: number) {
@@ -194,7 +244,7 @@ export default function App() {
         setDifficultyCookie(newDifficulty);
         setDifficulty(newDifficulty);
       }
-      setTimeout(() => handleFillNewWords(newDifficulty), 500);
+      setTimeout(() => handleFillNewWords(newDifficulty, score), 500);
     }
   }
 
