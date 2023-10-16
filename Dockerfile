@@ -24,7 +24,6 @@ RUN npm run test
 FROM denoland/deno:1.34.3 AS run
 WORKDIR /ma
 COPY --from=build /ma/dist/ dist/
-COPY countdown.html dist/
 COPY src/ src/
 COPY --from=test /ma/package.json /ma/package.json
 CMD [ "deno" , "run", "--allow-net", "--allow-read", "--allow-env", "src/backend/backend.ts"]

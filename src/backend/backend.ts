@@ -21,10 +21,7 @@ function illegalURL(path) {
 }
 
 function getContentType(path: string): string {
-  if (path === "/index.html") {
-    return "text/html";
-  }
-  if (path === "/countdown.html") {
+  if (path.endsWith(".html")) {
     return "text/html";
   }
   if (path === "/favicon.ico") {
