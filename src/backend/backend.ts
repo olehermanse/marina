@@ -24,6 +24,9 @@ function getContentType(path: string): string {
   if (path === "/index.html") {
     return "text/html";
   }
+  if (path === "/countdown.html") {
+    return "text/html";
+  }
   if (path === "/favicon.ico") {
     return "image/x-icon";
   }
