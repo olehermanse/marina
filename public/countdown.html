@@ -55,17 +55,15 @@
     function dateDiffString(a) {
       let strings = [];
       if (a.days > 0) {
-        strings.push("" + a.days + " dager");
+        strings.push("" + a.days + " dag" + (a.days != 1 ? "er" : ""));
       }
       if (a.hours > 0) {
-        strings.push("" + a.hours + " timer");
+        strings.push("" + a.hours + " time" + (a.hours != 1 ? "r" : ""));
       }
       if (a.minutes > 0) {
-        strings.push("" + a.minutes + " minutter");
+        strings.push("" + a.minutes + " minutt" + (a.minutes != 1 ? "er" : ""));
       }
-      if (a.seconds > 0) {
-        strings.push("" + a.seconds + " sekunder");
-      }
+      strings.push("" + a.seconds + " sekund" + (a.seconds != 1 ? "er" : ""));
       return strings.join(", ");
     }
 
