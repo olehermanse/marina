@@ -15,7 +15,8 @@
     <div style="font-size: 74px; font-weight: bold" id="remaining_time"></div>
     <br />
     <span
-      >Marina is arriving to Oslo on December 16th, at 16:25 local time.</span
+      >Marina lander på Oslo lufthavn Gardermoen på 16. desember kl 16:25 lokal
+      tid.</span
     >
   </body>
   <script>
@@ -54,16 +55,16 @@
     function dateDiffString(a) {
       let strings = [];
       if (a.days > 0) {
-        strings.push("" + a.days + " days");
+        strings.push("" + a.days + " dager");
       }
       if (a.hours > 0) {
-        strings.push("" + a.hours + " hours");
+        strings.push("" + a.hours + " timer");
       }
       if (a.minutes > 0) {
-        strings.push("" + a.minutes + " minutes");
+        strings.push("" + a.minutes + " minutter");
       }
       if (a.seconds > 0) {
-        strings.push("" + a.seconds + " seconds");
+        strings.push("" + a.seconds + " sekunder");
       }
       return strings.join(", ");
     }
