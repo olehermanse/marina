@@ -1,76 +1,84 @@
 <html>
-<head>
-  <meta charset="UTF-8" />
-  <link rel="icon" type="image/svg+xml" href="/favicon-green.svg" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Marina's countdown</title>
-</head>
-<body style="font-family: Helvetica, Arial; background-color: #FEDD00; color: #009739;">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon-green.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Marina's countdown</title>
+  </head>
+  <body
+    style="
+      font-family: Helvetica, Arial;
+      background-color: #fedd00;
+      color: #009739;
+    "
+  >
+    <div style="font-size: 74px; font-weight: bold" id="remaining_time"></div>
+    <br />
+    <span
+      >Marina is arriving to Oslo on December 16th, at 16:25 local time.</span
+    >
+  </body>
+  <script>
+    const SECOND = 1000;
+    const MINUTE = 60 * SECOND;
+    const HOUR = 60 * MINUTE;
+    const DAY = 24 * HOUR;
+    function dateDiff(a, b) {
+      let result = {};
+      let diff = a - b;
+      result.days = 0;
+      result.minutes = 0;
+      result.hours = 0;
+      result.seconds = 0;
+      result.milliseconds = 0;
+      if (diff > DAY) {
+        result.days += Math.floor(diff / DAY);
+        diff -= result.days * DAY;
+      }
+      if (diff > HOUR) {
+        result.hours += Math.floor(diff / HOUR);
+        diff -= result.hours * HOUR;
+      }
+      if (diff > MINUTE) {
+        result.minutes += Math.floor(diff / MINUTE);
+        diff -= result.minutes * MINUTE;
+      }
+      if (diff > SECOND) {
+        result.seconds += Math.floor(diff / SECOND);
+        diff -= result.seconds * SECOND;
+      }
+      result.milliseconds = diff;
+      return result;
+    }
 
-<div style="font-size: 74px; font-weight: bold; " id="remaining_time"></div>
-<br />
-<span>Marina is arriving to Oslo on December 16th, at 16:25 local time.</span>
-</body>
-<script>
+    function dateDiffString(a) {
+      let strings = [];
+      if (a.days > 0) {
+        strings.push("" + a.days + " days");
+      }
+      if (a.hours > 0) {
+        strings.push("" + a.hours + " hours");
+      }
+      if (a.minutes > 0) {
+        strings.push("" + a.minutes + " minutes");
+      }
+      if (a.seconds > 0) {
+        strings.push("" + a.seconds + " seconds");
+      }
+      return strings.join(", ");
+    }
 
-const SECOND = 1000;
-const MINUTE = 60 * SECOND;
-const HOUR = 60 * MINUTE;
-const DAY = 24 * HOUR;
-function dateDiff(a, b) {
-  let result = {};
-  let diff = a - b;
-  result.days = 0;
-  result.minutes = 0;
-  result.hours = 0;
-  result.seconds = 0;
-  result.milliseconds = 0;
-  if (diff > DAY) {
-    result.days += Math.floor(diff / DAY);
-    diff -= result.days * DAY;
-  }
-  if (diff > HOUR) {
-    result.hours += Math.floor(diff / HOUR);
-    diff -= result.hours * HOUR;
-  }
-  if (diff > MINUTE) {
-    result.minutes += Math.floor(diff / MINUTE);
-    diff -= result.minutes * MINUTE;
-  }
-  if (diff > SECOND) {
-    result.seconds += Math.floor(diff / SECOND);
-    diff -= result.seconds * SECOND;
-  }
-  result.milliseconds = diff;
-  return result;
-}
+    function update() {
+      let target = Date.parse("2023-12-16T16:25:00+01:00");
+      let now = Date.now();
+      let diff = dateDiff(target, now);
+      let string = dateDiffString(diff);
+      document.getElementById("remaining_time").innerText = string;
+    }
 
-function dateDiffString(a) {
-  let strings = [];
-  if (a.days > 0){
-    strings.push("" + a.days + " days");
-  }
-  if (a.hours > 0){
-    strings.push("" + a.hours + " hours");
-  }
-  if (a.minutes > 0){
-    strings.push("" + a.minutes + " minutes");
-  }
-  if (a.seconds > 0){
-    strings.push("" + a.seconds + " seconds");
-  }
-  return strings.join(", ")
-}
-
-function update() {
-  let target = Date.parse("2023-12-16T16:25:00+01:00");
-  let now = Date.now();
-  let diff = dateDiff(target, now);
-  let string = dateDiffString(diff);
-  document.getElementById("remaining_time").innerText = string;
-}
-
-update();
-setInterval(function() { update(); }, 1000);
-</script>
+    update();
+    setInterval(function () {
+      update();
+    }, 1000);
+  </script>
 </html>
