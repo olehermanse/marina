@@ -6,15 +6,16 @@
     <title>Marina's countdown</title>
   </head>
   <body
+    id="body"
     style="
       font-family: Helvetica, Arial;
       background-color: #fedd00;
       color: #009739;
     "
   >
-    <div style="font-size: 74px; font-weight: bold" id="remaining_time"></div>
+    <div style="font-size: 74px; font-weight: bold" id="countdown"></div>
     <br />
-    <span
+    <span id="sentence"
       >Marina lander på Oslo lufthavn Gardermoen på 16. desember kl 16:25 lokal
       tid.</span
     >
@@ -67,12 +68,31 @@
       return strings.join(", ");
     }
 
+    function updateStyle(diff) {
+      // #00205B #BA0C2F #FFFFFF
+      if (diff.seconds < 30) {
+        document.getElementById("countdown").style =
+          "font-size: 74px; font-weight: bold; text-shadow: -1px -1px 0 #ffffff, 1px -1px 0 #ffffff, -1px 1px 0 #ffffff, 1px 1px 0 #ffffff";
+        document.getElementById("body").style =
+          "font-family: Helvetica, Arial; background-color: #BA0C2F; color: #00205B";
+        document.getElementById("sentence").style =
+          "font-weight: bold; color: #ffffff";
+      } else {
+        document.getElementById("countdown").style =
+          "font-size: 74px; font-weight: bold";
+        document.getElementById("body").style =
+          "font-family: Helvetica, Arial; background-color: #fedd00; color: #009739;";
+        document.getElementById("sentence").style = "font-weight: bold";
+      }
+    }
+
     function update() {
       let target = Date.parse("2023-12-16T16:25:00+01:00");
       let now = Date.now();
       let diff = dateDiff(target, now);
+      updateStyle(diff);
       let string = dateDiffString(diff);
-      document.getElementById("remaining_time").innerText = string;
+      document.getElementById("countdown").innerText = string;
     }
 
     update();
