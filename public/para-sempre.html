@@ -9,8 +9,8 @@
     id="body"
     style="
       font-family: Helvetica, Arial;
-      background-color: #fedd00;
-      color: #009739;
+      background-color: #333333;
+      color: #eeeeee;
     "
   >
     <div style="font-size: 70px; font-weight: bold" id="counter"></div>
@@ -63,24 +63,6 @@
       }
       strings.push("" + a.seconds + " sekund" + (a.seconds != 1 ? "er" : ""));
       return strings.join(", ");
-    }
-
-    function updateStyle(diff) {
-      // #00205B #BA0C2F #FFFFFF
-      if (diff.seconds < 30) {
-        document.getElementById("countdown").style =
-          "font-size: 70px; font-weight: bold; text-shadow: -1px -1px 0 #ffffff, 1px -1px 0 #ffffff, -1px 1px 0 #ffffff, 1px 1px 0 #ffffff";
-        document.getElementById("body").style =
-          "font-family: Helvetica, Arial; background-color: #BA0C2F; color: #00205B";
-        document.getElementById("sentence").style =
-          "font-weight: bold; color: #ffffff";
-      } else {
-        document.getElementById("countdown").style =
-          "font-size: 70px; font-weight: bold";
-        document.getElementById("body").style =
-          "font-family: Helvetica, Arial; background-color: #fedd00; color: #009739;";
-        document.getElementById("sentence").style = "font-weight: bold";
-      }
     }
 
     function update() {
