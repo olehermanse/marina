@@ -1,0 +1,99 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Marina's countdown</title>
+  </head>
+  <body
+    id="body"
+    style="
+      font-family: Helvetica, Arial;
+      background-color: #fedd00;
+      color: #009739;
+    "
+  >
+    <div style="font-size: 70px; font-weight: bold" id="counter"></div>
+    <br />
+    <span id="sentence">❤️ 5 de maio 01:00, Linx Galeão ❤️</span>
+  </body>
+  <script>
+    const SECOND = 1000;
+    const MINUTE = 60 * SECOND;
+    const HOUR = 60 * MINUTE;
+    const DAY = 24 * HOUR;
+    function dateDiff(a, b) {
+      let result = {};
+      let diff = a - b;
+      result.days = 0;
+      result.minutes = 0;
+      result.hours = 0;
+      result.seconds = 0;
+      result.milliseconds = 0;
+      if (diff > DAY) {
+        result.days += Math.floor(diff / DAY);
+        diff -= result.days * DAY;
+      }
+      if (diff > HOUR) {
+        result.hours += Math.floor(diff / HOUR);
+        diff -= result.hours * HOUR;
+      }
+      if (diff > MINUTE) {
+        result.minutes += Math.floor(diff / MINUTE);
+        diff -= result.minutes * MINUTE;
+      }
+      if (diff > SECOND) {
+        result.seconds += Math.floor(diff / SECOND);
+        diff -= result.seconds * SECOND;
+      }
+      result.milliseconds = diff;
+      return result;
+    }
+
+    function dateDiffString(a) {
+      let strings = [];
+      if (a.days > 0) {
+        strings.push("" + a.days + " dag" + (a.days != 1 ? "er" : ""));
+      }
+      if (a.hours > 0) {
+        strings.push("" + a.hours + " time" + (a.hours != 1 ? "r" : ""));
+      }
+      if (a.minutes > 0) {
+        strings.push("" + a.minutes + " minutt" + (a.minutes != 1 ? "er" : ""));
+      }
+      strings.push("" + a.seconds + " sekund" + (a.seconds != 1 ? "er" : ""));
+      return strings.join(", ");
+    }
+
+    function updateStyle(diff) {
+      // #00205B #BA0C2F #FFFFFF
+      if (diff.seconds < 30) {
+        document.getElementById("countdown").style =
+          "font-size: 70px; font-weight: bold; text-shadow: -1px -1px 0 #ffffff, 1px -1px 0 #ffffff, -1px 1px 0 #ffffff, 1px 1px 0 #ffffff";
+        document.getElementById("body").style =
+          "font-family: Helvetica, Arial; background-color: #BA0C2F; color: #00205B";
+        document.getElementById("sentence").style =
+          "font-weight: bold; color: #ffffff";
+      } else {
+        document.getElementById("countdown").style =
+          "font-size: 70px; font-weight: bold";
+        document.getElementById("body").style =
+          "font-family: Helvetica, Arial; background-color: #fedd00; color: #009739;";
+        document.getElementById("sentence").style = "font-weight: bold";
+      }
+    }
+
+    function update() {
+      let start = Date.parse("2023-05-05T01:00:00-03:00");
+      let now = Date.now();
+      let diff = dateDiff(now, start);
+      let string = dateDiffString(diff);
+      document.getElementById("counter").innerText = string;
+    }
+
+    update();
+    setInterval(function () {
+      update();
+    }, 1000);
+  </script>
+</html>
