@@ -22,12 +22,29 @@
   </body>
   <script>
     let pressed = false;
-    addEventListener("mousedown", (event) => {pressed = true;update();});
-    addEventListener("mouseup", (event) => {pressed = false;update();});
-    addEventListener("touchstart", (event) => {pressed = true;update();});
-    addEventListener("touchend", (event) => {pressed = false;update();});
-    addEventListener("touchcancel", (event) => {pressed = false;update();});
-    addEventListener("touchmove", (event) => {pressed = true;});
+    addEventListener("mousedown", (event) => {
+      pressed = true;
+      update();
+    });
+    addEventListener("mouseup", (event) => {
+      pressed = false;
+      update();
+    });
+    addEventListener("touchstart", (event) => {
+      pressed = true;
+      update();
+    });
+    addEventListener("touchend", (event) => {
+      pressed = false;
+      update();
+    });
+    addEventListener("touchcancel", (event) => {
+      pressed = false;
+      update();
+    });
+    addEventListener("touchmove", (event) => {
+      pressed = true;
+    });
 
     const SECOND = 1000;
     const MINUTE = 60 * SECOND;
@@ -78,8 +95,29 @@
 
     function textify(num) {
       if (num <= 20) {
-        const numbers = ["null", "en", "to", "tre", "fire", "fem", "seks", "syv", "åtte", "ni", "ti",
-          "elleve", "tolv", "tretten", "fjorten", "femten", "seksten", "sytten", "atten", "nitten", "tjue"];
+        const numbers = [
+          "null",
+          "en",
+          "to",
+          "tre",
+          "fire",
+          "fem",
+          "seks",
+          "syv",
+          "åtte",
+          "ni",
+          "ti",
+          "elleve",
+          "tolv",
+          "tretten",
+          "fjorten",
+          "femten",
+          "seksten",
+          "sytten",
+          "atten",
+          "nitten",
+          "tjue",
+        ];
         return numbers[num];
       }
       if (num === 30) {
@@ -117,9 +155,13 @@
         strings.push(textify(a.hours) + " time" + (a.hours != 1 ? "r" : ""));
       }
       if (a.minutes > 0) {
-        strings.push(textify(a.minutes) + " minutt" + (a.minutes != 1 ? "er" : ""));
+        strings.push(
+          textify(a.minutes) + " minutt" + (a.minutes != 1 ? "er" : ""),
+        );
       }
-      strings.push(textify(a.seconds) + " sekund" + (a.seconds != 1 ? "er" : ""));
+      strings.push(
+        textify(a.seconds) + " sekund" + (a.seconds != 1 ? "er" : ""),
+      );
       return strings.join(", ");
     }
 
