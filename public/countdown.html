@@ -4,22 +4,28 @@
     <link rel="icon" type="image/svg+xml" href="/favicon-green.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Marina's countdown</title>
+    <style>
+      body {
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        font-family: Helvetica, Arial;
+      }
+      .countdown {
+        font-size: 60px;
+        font-weight: bold;
+      }
+      .sentence {
+        font-weight: bold;
+      }
+    </style>
   </head>
-  <body
-    id="body"
-    style="
-      font-family: Helvetica, Arial;
-      background-color: #fedd00;
-      color: #009739;
-      -webkit-touch-callout: none;
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none; user-select: none;
-    "
-  >
-    <div style="font-size: 60px; font-weight: bold" id="countdown"></div>
+  <body id="body" style="background-color: #fedd00; color: #009739">
+    <div id="countdown" class="countdown"></div>
     <br />
-    <span id="sentence"
+    <span id="sentence" class="sentence"
       >Marina lander på Oslo lufthavn Gardermoen på 16. desember kl 16:25 lokal
       tid.</span
     >
@@ -178,18 +184,16 @@
     function updateStyle(diff) {
       // #00205B #BA0C2F #FFFFFF
       if (diff.seconds < 30) {
-        document.getElementById("countdown").style =
-          "font-size: 60px; font-weight: bold; text-shadow: -1px -1px 0 #ffffff, 1px -1px 0 #ffffff, -1px 1px 0 #ffffff, 1px 1px 0 #ffffff";
         document.getElementById("body").style =
-          "font-family: Helvetica, Arial; background-color: #BA0C2F; color: #00205B; -webkit-touch-callout: none; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none;";
-        document.getElementById("sentence").style =
-          "font-weight: bold; color: #ffffff";
+          "background-color: #BA0C2F; color: #00205B;";
+        document.getElementById("countdown").style =
+          "text-shadow: -1px -1px 0 #ffffff, 1px -1px 0 #ffffff, -1px 1px 0 #ffffff, 1px 1px 0 #ffffff";
+        document.getElementById("sentence").style = "color: #ffffff";
       } else {
-        document.getElementById("countdown").style =
-          "font-size: 60px; font-weight: bold";
         document.getElementById("body").style =
-          "font-family: Helvetica, Arial; background-color: #fedd00; color: #009739; -webkit-touch-callout: none; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none;";
-        document.getElementById("sentence").style = "font-weight: bold";
+          "background-color: #fedd00; color: #009739;";
+        document.getElementById("countdown").style = "";
+        document.getElementById("sentence").style = "";
       }
     }
 
