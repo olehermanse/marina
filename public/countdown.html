@@ -23,26 +23,32 @@
   <script>
     let pressed = false;
     addEventListener("mousedown", (event) => {
+      event.preventDefault();
       pressed = true;
       update();
     });
     addEventListener("mouseup", (event) => {
+      event.preventDefault();
       pressed = false;
       update();
     });
     addEventListener("touchstart", (event) => {
+      event.preventDefault();
       pressed = true;
       update();
     });
     addEventListener("touchend", (event) => {
+      event.preventDefault();
       pressed = false;
       update();
     });
     addEventListener("touchcancel", (event) => {
+      event.preventDefault();
       pressed = false;
       update();
     });
     addEventListener("touchmove", (event) => {
+      event.preventDefault();
       pressed = true;
     });
 
