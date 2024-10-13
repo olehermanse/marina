@@ -26,7 +26,7 @@
     <div id="countdown" class="countdown"></div>
     <br />
     <span id="sentence" class="sentence"
-      >Marina lander på Oslo lufthavn Gardermoen på 19. juni kl 23:20 lokal
+      >Marina lander på Oslo lufthavn Gardermoen på 15. desember kl 18:20 lokal
       tid.</span
     >
   </body>
@@ -172,11 +172,11 @@
       }
       if (a.minutes > 0) {
         strings.push(
-          textify(a.minutes) + " minutt" + (a.minutes != 1 ? "er" : "")
+          textify(a.minutes) + " minutt" + (a.minutes != 1 ? "er" : ""),
         );
       }
       strings.push(
-        textify(a.seconds) + " sekund" + (a.seconds != 1 ? "er" : "")
+        textify(a.seconds) + " sekund" + (a.seconds != 1 ? "er" : ""),
       );
       return strings.join(", ");
     }
@@ -198,7 +198,7 @@
     }
 
     function update() {
-      let target = Date.parse("2024-06-19T23:20:00+02:00");
+      let target = Date.parse("2024-12-15T18:20:00+01:00");
       let now = Date.now();
       let diff = dateDiff(target, now);
       updateStyle(diff);
