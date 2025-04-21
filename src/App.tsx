@@ -72,6 +72,10 @@ const basics = new Map([
   ["sliten", "cansado"],
   ["våken", "acordado/a"],
   ["ord", "palavra"],
+  ["dag", "dia"],
+  ["natt", "noite"],
+  ["ettermiddag", "tarde"],
+  ["morgen", "manhã"],
 ]);
 
 const numbers = new Map([
@@ -120,6 +124,20 @@ const advanced = new Map([
   ["fugl", "pássaro"],
   ["sitte", "sentar"],
   ["gammel", "velho"],
+  ["nok", "bastante"],
+  ["rød", "vermelho"],
+  ["grønn", "verde"],
+  ["blå", "azul"],
+  ["hvit", "branco/a"],
+  ["gul", "amarelo/a"],
+  ["sort", "preto/a"],
+  ["fjell", "mountain"],
+  ["skole", "escola"],
+  ["fabrikk", "fábrica"],
+  ["matbutikk", "supermercado"],
+  ["datamaskin", "computador"],
+  ["perfekt", "perfeito/a"],
+  ["billett", "bilhete"],
 ]);
 
 const dictionary = new Map([...basics, ...numbers, ...advanced]);
