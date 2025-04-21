@@ -53,7 +53,7 @@ async function handleFile(requestEvent, filepath) {
     filepath = "/index.html";
   } else if (filepath.endsWith("/")) {
     filepath = filepath.slice(0, -1) + ".html";
-  } else if (!filepath.includes(".")){
+  } else if (!filepath.includes(".")) {
     filepath = filepath + ".html";
   }
 

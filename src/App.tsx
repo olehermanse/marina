@@ -205,10 +205,10 @@ export default function App() {
   const [difficulty, setDifficulty] = useState(getDifficulty());
   const [score, setScore] = useState(getScore());
   const [buttonStates, setButtonStates]: [string[], any] = useState(
-    Array(Number(difficulty)).fill("")
+    Array(Number(difficulty)).fill(""),
   );
   const [words, setWords]: [string[], any] = useState(
-    getNewWords(difficulty, score)
+    getNewWords(difficulty, score),
   );
 
   function leftSideClicked() {
