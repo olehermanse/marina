@@ -1,4 +1,4 @@
-FROM node:20 AS build
+FROM node:22 AS build
 WORKDIR /ma
 COPY package-lock.json package.json ./
 RUN npm install
@@ -14,7 +14,7 @@ RUN npm run build
 RUN bash add_version.sh
 COPY public/* dist/
 
-FROM node:20 AS test
+FROM node:22 AS test
 WORKDIR /ma
 COPY --from=build /ma /ma
 COPY test test
