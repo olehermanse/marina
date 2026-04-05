@@ -1,6 +1,6 @@
 FROM docker.io/node:24.14.1-alpine3.23@sha256:01743339035a5c3c11a373cd7c83aeab6ed1457b55da6a69e014a95ac4e4700b AS build
 RUN apk add bash
-WORKDIR /ma
+WORKDIR /marina
 COPY package-lock.json package.json ./
 RUN npm install
 COPY .git .git
@@ -16,15 +16,15 @@ RUN bash add_version.sh
 COPY public/* dist/
 
 FROM docker.io/node:24.14.1-alpine3.23@sha256:01743339035a5c3c11a373cd7c83aeab6ed1457b55da6a69e014a95ac4e4700b AS test
-WORKDIR /ma
-COPY --from=build /ma /ma
+WORKDIR /marina
+COPY --from=build /marina /marina
 COPY test test
 RUN npm install
 RUN npm run test
 
 FROM docker.io/denoland/deno:2.7.11@sha256:869e31370dca82b10abefeabe92a2efae44c0d8c70e03776b05ca07ce6b2e062 AS run
-WORKDIR /ma
-COPY --from=build /ma/dist/ dist/
+WORKDIR /marina
+COPY --from=build /marina/dist/ dist/
 COPY src/ src/
-COPY --from=test /ma/package.json /ma/package.json
+COPY --from=test /marina/package.json /marina/package.json
 CMD [ "deno" , "run", "--allow-net", "--allow-read", "--allow-env", "src/backend/backend.ts"]
