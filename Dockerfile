@@ -1,4 +1,5 @@
-FROM docker.io/node:22.22.0@sha256:cd7bcd2e7a1e6f72052feb023c7f6b722205d3fcab7bbcbd2d1bfdab10b1e935 AS build
+FROM docker.io/node:24.14.1-alpine3.23@sha256:01743339035a5c3c11a373cd7c83aeab6ed1457b55da6a69e014a95ac4e4700b AS build
+RUN apk add bash
 WORKDIR /ma
 COPY package-lock.json package.json ./
 RUN npm install
@@ -14,14 +15,14 @@ RUN npm run build
 RUN bash add_version.sh
 COPY public/* dist/
 
-FROM docker.io/node:22.22.0@sha256:cd7bcd2e7a1e6f72052feb023c7f6b722205d3fcab7bbcbd2d1bfdab10b1e935 AS test
+FROM docker.io/node:24.14.1-alpine3.23@sha256:01743339035a5c3c11a373cd7c83aeab6ed1457b55da6a69e014a95ac4e4700b AS test
 WORKDIR /ma
 COPY --from=build /ma /ma
 COPY test test
 RUN npm install
 RUN npm run test
 
-FROM docker.io/denoland/deno:2.6.6@sha256:08941c4fcc2f0448d34ca2452edeb5bca009bed29313079cfad0e5e2fa37710f AS run
+FROM docker.io/denoland/deno:2.7.11@sha256:869e31370dca82b10abefeabe92a2efae44c0d8c70e03776b05ca07ce6b2e062 AS run
 WORKDIR /ma
 COPY --from=build /ma/dist/ dist/
 COPY src/ src/
