@@ -1,4 +1,4 @@
-FROM docker.io/node:24.14.1-alpine3.23@sha256:01743339035a5c3c11a373cd7c83aeab6ed1457b55da6a69e014a95ac4e4700b AS build
+FROM docker.io/node:24.22.3-alpine3.24@sha256:116b800c3754b440ee0aa3ed2f20f5bf3d99a554bfd9adeea09ea8017f6e85f5 AS build
 RUN apk add bash sed git
 WORKDIR /marina
 COPY package-lock.json package.json ./
@@ -15,7 +15,7 @@ RUN npm run build
 RUN bash add_version.sh
 COPY public/* dist/
 
-FROM docker.io/node:24.14.1-alpine3.23@sha256:01743339035a5c3c11a373cd7c83aeab6ed1457b55da6a69e014a95ac4e4700b AS test
+FROM docker.io/node:24.22.3-alpine3.24@sha256:116b800c3754b440ee0aa3ed2f20f5bf3d99a554bfd9adeea09ea8017f6e85f5 AS test
 WORKDIR /marina
 COPY --from=build /marina /marina
 COPY test test
